@@ -1,6 +1,7 @@
 import os
 from cpp_ast_codex.ast_builder import parse_source, parse_path
 from cpp_ast_codex.visualize import to_graph
+from cpp_ast_codex.text import to_text
 
 SAMPLE_CODE = """\
 int add(int a, int b) {
@@ -36,4 +37,11 @@ def test_parse_directory(tmp_path):
     kinds = [child.kind for child in root.children]
     assert root.kind == "DIRECTORY"
     assert "TRANSLATION_UNIT" in kinds
+
+
+def test_text_output():
+    root = parse_source(SAMPLE_CODE, filename="sample.cpp")
+    text = to_text(root)
+    assert "TRANSLATION_UNIT" in text
+    assert "FUNCTION_DECL" in text
 
