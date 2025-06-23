@@ -1,5 +1,5 @@
 import os
-from cpp_ast_codex.ast_builder import parse_source
+from cpp_ast_codex.ast_builder import parse_source, parse_path
 from cpp_ast_codex.visualize import to_graph
 
 SAMPLE_CODE = """\
@@ -25,4 +25,15 @@ def test_graph_generation(tmp_path):
     graph.format = 'png'
     graph.render(filename=str(output), cleanup=True)
     assert os.path.exists(str(output) + '.png')
+
+
+def test_parse_directory(tmp_path):
+    file1 = tmp_path / "a.cpp"
+    file2 = tmp_path / "b.cpp"
+    file1.write_text("int a(){return 1;}")
+    file2.write_text("int b(){return 2;}")
+    root = parse_path(tmp_path)
+    kinds = [child.kind for child in root.children]
+    assert root.kind == "DIRECTORY"
+    assert "TRANSLATION_UNIT" in kinds
 
