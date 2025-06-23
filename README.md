@@ -9,10 +9,10 @@ See [SRS.md](SRS.md) for the software requirements collected from GitHub issues.
 After installing the dependencies (`pip install clang==17.* graphviz` and a system `graphviz` package), run:
 
 ```bash
-./generate_ast_image.py <source_file.c> -o output.png
+./generate_ast_image.py <source_or_directory> -o output.png
 ```
 
-The script parses the source file using `libclang` and outputs the AST as a PNG image.
+The script parses the given file or all C/C++ files inside a directory using `libclang` and outputs the AST as a PNG image.
 
 On Windows, install LLVM and ensure `libclang.dll` is available. You can provide
 the path explicitly using `--clang-lib` or set the environment variable
