@@ -5,6 +5,8 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Union
 from pathlib import Path
 
+_clang_loaded = False
+
 @dataclass
 class ASTNode:
     kind: str
@@ -20,8 +22,13 @@ def _create_node(cursor: clang.cindex.Cursor) -> ASTNode:
 
 
 def _ensure_clang_loaded(clang_lib: Optional[str]) -> None:
+    global _clang_loaded
+    if _clang_loaded:
+        return
+
     if clang_lib:
         clang.cindex.Config.set_library_file(clang_lib)
+        _clang_loaded = True
         return
 
     env = os.environ.get("CLANG_LIBRARY_FILE") or os.environ.get("LIBCLANG_PATH")
@@ -30,6 +37,7 @@ def _ensure_clang_loaded(clang_lib: Optional[str]) -> None:
             clang.cindex.Config.set_library_path(env)
         else:
             clang.cindex.Config.set_library_file(env)
+        _clang_loaded = True
         return
 
     for name in ["clang", "clang-17", "clang-18", "clang-19", "libclang"]:
@@ -37,6 +45,7 @@ def _ensure_clang_loaded(clang_lib: Optional[str]) -> None:
         if lib:
             try:
                 clang.cindex.Config.set_library_file(lib)
+                _clang_loaded = True
                 return
             except Exception:
                 pass
