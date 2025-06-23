@@ -10,9 +10,13 @@ After installing the dependencies (`pip install clang==17.* graphviz` and a syst
 
 ```bash
 ./generate_ast_image.py <source_or_directory> -o output.png
+./print_ast.py <source_or_directory>
 ```
 
 The script parses the given file or all C/C++ files inside a directory using `libclang` and outputs the AST as a PNG image.
+`print_ast.py` prints the AST in a textual tree format similar to the `tree` command.
+
+See [docs/text_output.md](docs/text_output.md) for more details on the text output format.
 
 On Windows, install LLVM and ensure `libclang.dll` is available. You can provide
 the path explicitly using `--clang-lib` or set the environment variable

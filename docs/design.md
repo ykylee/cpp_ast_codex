@@ -9,6 +9,8 @@
   - `parse_source`, `parse_file`, `parse_directory`, `parse_path` 함수: libclang을 이용해 소스코드 또는 디렉터리를 파싱하여 `ASTNode` 트리로 변환한다.
 - **시각화 모듈** (`cpp_ast_codex/visualize.py`)
   - `to_graph` 함수: `ASTNode` 트리를 Graphviz `Digraph` 객체로 변환한다.
+- **텍스트 출력 모듈** (`cpp_ast_codex/text.py`)
+  - `to_text` 함수: `ASTNode` 트리를 텍스트 형태로 표현한다.
 - **명령줄 도구** (`generate_ast_image.py`)
   - 입력 경로와 출력 파일명을 받아 AST 이미지를 생성한다.
 
@@ -39,14 +41,19 @@ classDiagram
     class visualize {
         +to_graph(node)
     }
+    class text {
+        +to_text(node)
+    }
     class CLI {
         +main()
     }
 
     ast_builder --> ASTNode
     visualize --> ASTNode
+    text --> ASTNode
     CLI --> ast_builder : parse_path
     CLI --> visualize : to_graph
+    CLI --> text : to_text
 ```
 
 위 구조를 바탕으로 세부 기능을 확장하며 구현을 진행한다.

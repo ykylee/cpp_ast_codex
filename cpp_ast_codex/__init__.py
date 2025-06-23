@@ -5,6 +5,7 @@ from .ast_builder import (
     parse_directory,
     parse_path,
 )
+from .text import to_text
 
 __all__ = [
     "ASTNode",
@@ -12,4 +13,5 @@ __all__ = [
     "parse_file",
     "parse_directory",
     "parse_path",
+    "to_text",
 ]
